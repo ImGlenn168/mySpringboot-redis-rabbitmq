@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间映射到com.mybatis_demo.mapper.UserMapper类-->
+<mapper namespace="com.java.myspringbootdemo02.Persistence.mapper.IUserMapper">
+    <insert id="addUser" parameterType="com.java.myspringbootdemo02.Common.po.UserPo">
+        insert into user_management(user_name, password, phone, dept, status, hire_time, create_time, update_time, state)
+        values (#{userName}, #{password}, #{phone}, #{dept}, #{status}, #{hireTime}, now(), now(), #{state})
+    </insert>
+
+    <insert id="batchAdd" parameterType="com.java.myspringbootdemo02.Common.po.UserPo">
+        insert into user_management(user_name, password, phone, dept, status, hire_time, create_time, update_time, state)
+        values
+        <foreach collection="list" separator="," item="item">
+        (#{item.userName}, #{item.password}, #{item.phone}, #{item.dept}, #{item.status}, #{item.hireTime}, now(), now(), #{item.state})
+        </foreach>
+    </insert>
+
+    <sql id="allFields">
+        id, user_name, phone, dept, status, hire_time, create_time, update_time, state
+    </sql>
+    <select id="findAll" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
+        select <include refid="allFields"></include> from user_management
+    </select>
+
+    <select id="findByPage" resultType="com.java.myspringbootdemo02.Common.po.UserPo">
+        select <include refid="allFields"></include> from user_management limit #{startIndex},#{pageSize}
+    </select>
+
+    <update id="updateUserById">
+        update user_management
+        <set>
+        <if test="userName!=null and userName!=''">
+        user_name=#{userName},
+        </if>
+            <if test="password!=null and password!=''">
+            password=#{password},
+            </if>
+            <if test="phone!=null and phone!=''">
+            phone=#{phone},
+            </if>
+            <if test="dept!=null and dept!=''">
+            dept=#{dept},
+            </if>
+            <if test="status!=null and status!=''">
+            status=#{status},
+            </if>
+            <if test="hireTime!=null and hireTime!=''">
+            hire_time=#{hireTime},
+            </if>
+            <if test="state!=null and state!=''">
+            state=#{state}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="deleteUserById">
+        delete from user_management where id=#{id}
+    </delete>
+</mapper>
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间映射到com.mybatis_demo.mapper.UserMapper类-->
+<mapper namespace="com.java.myspringbootdemo02.Persistence.mapper.IAccountMapper">
+    <select id="findAll" resultType="com.java.myspringbootdemo02.Common.po.AccountPO">
+        select * from account
+        </select>
+</mapper>
+
